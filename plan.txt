@@ -1,0 +1,11 @@
+1: limpiar_parrilla: 400:
+2: comprar_carne: 1500:
+3: comprar_carbon: :
+4: prender_fuego: 600: 1, 3
+5: adobar_carne: 500: 2
+6: asar_carne: 2000: 4, 5
+7: preparar_pebre: :
+8: comprar_pan: 300:
+9: tostar_pan: : 4, 8
+10: armar_choripan: 400: 6, 9, 7
+11: servir_mesa: 200: 10
