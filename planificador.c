@@ -68,7 +68,6 @@ void cargar_plan(const char *archivo) {
     fclose(f);
 }
 
-// Verifica si todas las dependencias de una actividad están en estado 2 (Terminada)
 int dependencias_listas(Actividad *act) {
     for (int i = 0; i < act->num_deps; i++) {
         int dep_id = act->dependencias[i];
@@ -91,7 +90,6 @@ void ejecutar_plan(int limite_k) {
     printf("\n--- INICIANDO PLANIFICADOR DIECIOCHERO (K=%d) ---\n", limite_k);
 
     while (actividades_terminadas < total_actividades) {
-        // Buscar actividades listas para ejecutar
         for (int i = 0; i < total_actividades; i++) {
             if (plan[i].estado == 0 && procesos_activos < limite_k) {
                 if (dependencias_listas(&plan[i])) {
@@ -100,7 +98,6 @@ void ejecutar_plan(int limite_k) {
 
                     pid_t pid = fork();
                     if (pid == 0) {
-                        // Código del proceso hijo (Actividad)
                         printf("[INICIO] %s (ID: %d) - Duracion: %d ms\n", plan[i].nombre, plan[i].id, plan[i].tiempo_ms);
                         usleep(plan[i].tiempo_ms * 1000); // usleep usa microsegundos
                         exit(plan[i].id); // Retornar el ID para que el padre sepa quién terminó
@@ -112,7 +109,6 @@ void ejecutar_plan(int limite_k) {
             }
         }
 
-        // Si hay procesos corriendo, el padre espera a que uno termine
         if (procesos_activos > 0) {
             int status;
             pid_t pid_terminado = wait(&status);
