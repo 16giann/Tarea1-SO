@@ -108,7 +108,19 @@ con reintento ante `EINTR`.
 - Planes inválidos: ciclo, ID duplicado, dependencia inexistente, K inválido.
 - 10000 actividades generadas con gen_plan.py con K = 4, 64 y 500 (unos segundos en total), y con FALLO_PCT=2.
 - Máximo de hijos vivos observado igual a K; sin procesos zombie; ejecución con ulimit -n 64 y K=200.
+- 
+## Verificación realizada
+Se ejecutaron los siguientes casos en Ubuntu (VMware), confirmando el
+comportamiento esperado del planificador:
 
+- `tests/tests_ciclo.txt`: rechazado con "el plan contiene un ciclo".
+- `tests/tests_dup.txt`: rechazado con "ID duplicado".
+- `tests/tests_dep.txt`: rechazado con "depende de '99', que no existe".
+- `FALLAR=4 ./planificador plan.txt 3`: la actividad 4 falla y se abortan
+  únicamente sus 4 dependientes directos/indirectos (6, 9, 10, 11); las
+  6 actividades independientes terminan con éxito. Resumen final:
+  Completadas 6, Fallidas 1, Abortadas 4, Total 11 — aísla correctamente
+  la falla sin afectar ramas no relacionadas del DAG.
 ## Autores
 
 Gianfranco Caleni 
