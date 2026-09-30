@@ -38,7 +38,7 @@ typedef struct {
     char msg[MSG_LEN]; /* mensaje producido al terminar bien */
 } Nodo;
 
-/* ---- estado global ---- */
+/* estado global */
 static Nodo *nodos = NULL;
 static int n = 0;
 static int *orden = NULL;    /* indices ordenados por ID (busqueda binaria) */
@@ -74,9 +74,7 @@ static void die(const char *fmt, ...) {
 
 static int rango_aleatorio(void) { return DUR_MIN + rand() % (DUR_MAX - DUR_MIN + 1); }
 
-/* ------------------------------------------------------------------ */
-/*  Utilidades de E/S                                                  */
-/* ------------------------------------------------------------------ */
+/*  Utilidades de E/S  */
 static size_t leer_hasta(int fd, void *buf, size_t len) {
     size_t got = 0;
     while (got < len) {
@@ -103,9 +101,7 @@ static void dormir_ms(int ms) {
     while (nanosleep(&req, &rem) == -1 && errno == EINTR) req = rem;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Parseo de plan.txt                                                 */
-/* ------------------------------------------------------------------ */
+/* Parseo de plan.txt */
 static char *trim(char *s) {
     while (isspace((unsigned char)*s)) s++;
     char *e = s + strlen(s);
@@ -203,9 +199,7 @@ static int buscar(const char *id) {
     return -1;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Modelado del DAG                                                   */
-/* ------------------------------------------------------------------ */
+/*  Modelado del DAG  */
 static void construir_grafo(void) {
     orden = malloc((size_t)n * sizeof(int));
     if (!orden) die("sin memoria");
