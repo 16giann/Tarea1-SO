@@ -110,7 +110,7 @@ con reintento ante `EINTR`.
 - Máximo de hijos vivos observado igual a K; sin procesos zombie; ejecución con ulimit -n 64 y K=200.
 - 
 ## Verificación realizada
-Se ejecutaron los siguientes casos en Ubuntu (VMware), confirmando el
+Se ejecutaron los siguientes casos, confirmando el
 comportamiento esperado del planificador:
 
 - `tests/tests_ciclo.txt`: rechazado con "el plan contiene un ciclo".
@@ -121,6 +121,14 @@ comportamiento esperado del planificador:
   6 actividades independientes terminan con éxito. Resumen final:
   Completadas 6, Fallidas 1, Abortadas 4, Total 11 — aísla correctamente
   la falla sin afectar ramas no relacionadas del DAG.
+- Ctrl+C (SIGINT) en mitad de la ejecución: se detecta el corte, se
+  termina a la fuerza cada proceso vivo (identificado por PID) y el
+  programa cierra limpio. Resumen: 1 completada, 10 abortadas, sin
+  procesos huérfanos ni zombies tras la clausura.
+- Carga de estrés con 10000 actividades (`gen_plan.py 10000 7 5`,
+  K=64): las 10000 completaron sin fallas en 6.68s reales
+  (`time`: real 0m6,679s, user 0m2,582s, sys 0m2,979s), sin procesos
+  zombie al finalizar (confirmado con `ps aux | grep planificador`).
 ## Autores
 
 Gianfranco Caleni 
