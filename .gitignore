@@ -1,0 +1,4 @@
+planificador
+*.o
+plan_grande.txt
+g*.txt
